@@ -25,7 +25,7 @@ export default function Home() {
         <ContactSection />
       </main>
 
-      {/* Footer */}
+      {/* footer */}
       <Footer />
     </div>
   );
