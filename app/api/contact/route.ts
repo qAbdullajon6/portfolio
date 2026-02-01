@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
     // Create transporter (configure with your email service)
     // You'll need to add these environment variables to .env.local
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.gmail.com",
       port: parseInt(process.env.SMTP_PORT || "587"),
       secure: false, // true for 465, false for other ports
@@ -80,7 +80,7 @@ ${validatedData.message}
         {
           success: false,
           message: "Ma'lumotlar noto'g'ri",
-          errors: error.errors,
+          errors: error.issues,
         },
         { status: 400 },
       );
