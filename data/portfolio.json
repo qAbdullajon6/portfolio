@@ -1,0 +1,371 @@
+{
+  "personalInfo": {
+    "name": "Aziz Mukhtorov",
+    "title": "Full Stack Developer",
+    "email": "abdullajonq6@gmail.com",
+    "phone": "+998 90 123 45 67",
+    "location": "Tashkent, Uzbekistan",
+    "github": "https://github.com/azikm",
+    "linkedin": "",
+    "website": "",
+    "summary": "Passionate Full Stack Developer with expertise in modern web technologies. Specialized in building scalable, high-performance applications using React, Next.js, Node.js, and various database systems. Strong problem-solving skills with a focus on clean code and user experience.",
+    "updatedAt": "2026-02-02T10:00:00Z"
+  },
+  "skills": [
+    {
+      "id": "1",
+      "name": "HTML5",
+      "icon": "🌐",
+      "color": "#E34F26",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 1,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "CSS3",
+      "icon": "🎨",
+      "color": "#1572B6",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 2,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "name": "JavaScript",
+      "icon": "⚡",
+      "color": "#F7DF1E",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 3,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "4",
+      "name": "TypeScript",
+      "icon": "📘",
+      "color": "#3178C6",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 4,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "5",
+      "name": "React",
+      "icon": "⚛️",
+      "color": "#61DAFB",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 5,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "6",
+      "name": "Next.js",
+      "icon": "▲",
+      "color": "#ffffff",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 6,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "7",
+      "name": "Vue.js",
+      "icon": "💚",
+      "color": "#4FC08D",
+      "level": "O'rta",
+      "category": "Frontend",
+      "visible": true,
+      "order": 7,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "8",
+      "name": "Tailwind CSS",
+      "icon": "🌊",
+      "color": "#06B6D4",
+      "level": "Yuqori",
+      "category": "Frontend",
+      "visible": true,
+      "order": 8,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "9",
+      "name": "Node.js",
+      "icon": "💚",
+      "color": "#339933",
+      "level": "Yuqori",
+      "category": "Backend",
+      "visible": true,
+      "order": 9,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "10",
+      "name": "Express.js",
+      "icon": "🚂",
+      "color": "#ffffff",
+      "level": "Yuqori",
+      "category": "Backend",
+      "visible": true,
+      "order": 10,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "11",
+      "name": "NestJS",
+      "icon": "🐱",
+      "color": "#E0234E",
+      "level": "Yuqori",
+      "category": "Backend",
+      "visible": true,
+      "order": 11,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "12",
+      "name": "PostgreSQL",
+      "icon": "🐘",
+      "color": "#4169E1",
+      "level": "Yuqori",
+      "category": "Backend",
+      "visible": true,
+      "order": 12,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "13",
+      "name": "MongoDB",
+      "icon": "🍃",
+      "color": "#47A248",
+      "level": "O'rta",
+      "category": "Backend",
+      "visible": true,
+      "order": 13,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "14",
+      "name": "Redis",
+      "icon": "🔴",
+      "color": "#DC382D",
+      "level": "O'rta",
+      "category": "Backend",
+      "visible": true,
+      "order": 14,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "15",
+      "name": "Git",
+      "icon": "📦",
+      "color": "#F05032",
+      "level": "Yuqori",
+      "category": "Tools",
+      "visible": true,
+      "order": 15,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "16",
+      "name": "Docker",
+      "icon": "🐳",
+      "color": "#2496ED",
+      "level": "O'rta",
+      "category": "Tools",
+      "visible": true,
+      "order": 16,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "17",
+      "name": "Linux",
+      "icon": "🐧",
+      "color": "#FCC624",
+      "level": "O'rta",
+      "category": "Tools",
+      "visible": true,
+      "order": 17,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "ml5nr528cdqezhtd7sh",
+      "title": "Bojxona Servis Platformasi (bojxonaservis.uz)",
+      "description": "Davlat bojxona organlari tomonidan musodara qilingan kontrabanda va huquqbuzarlik bilan bog‘liq tovarlarni hisobga olish, saqlash va sud qaroriga asosan boshqarish uchun mo‘ljallangan yopiq axborot tizimi.",
+      "longDescription": "Mazkur loyiha O‘zbekiston bojxona tizimi uchun ishlab chiqilgan yopiq va keng ko‘lamli platforma bo‘lib, unda kontrabanda sifatida musodara qilingan mahsulotlarni ro‘yxatga olish, saqlovga joylashtirish hamda sud qarorlariga muvofiq ularning keyingi taqdirini boshqarish imkoniyati mavjud.\n\nPlatforma real ish jarayonlariga moslashtirilgan bo‘lib, katta hajmdagi ma’lumotlar bilan ishlash, aniq statuslar, rollar va huquqlar asosida nazoratni ta’minlaydi.",
+      "technologies": [
+        "React.js",
+        "JavaScript",
+        "Vite",
+        "Tailwind CSS",
+        "Lucide Icons",
+        "Zustand",
+        "React Router DOM",
+        "Axios",
+        "Date-fns",
+        "Shadcn UI"
+      ],
+      "image": "/uploads/project_1770068322944_Screenshot_2026-02-03_022902.png",
+      "githubUrl": "",
+      "liveUrl": "https://bojxonaservis.uz/",
+      "featured": true,
+      "visible": true,
+      "order": 1,
+      "createdAt": "2026-02-02T21:04:27.488Z",
+      "updatedAt": "2026-02-02T21:41:47.064Z",
+      "images": [
+        "/uploads/project_1770068322944_Screenshot_2026-02-03_022902.png",
+        "/uploads/project_1770068364965_Screenshot_2026-02-03_023919.png",
+        "/uploads/project_1770068458999_Screenshot_2026-02-03_024052.png",
+        "/uploads/project_1770068493941_Screenshot_2026-02-03_024125.png"
+      ],
+      "categories": [
+        "Frontend"
+      ],
+      "category": "Frontend"
+    },
+    {
+      "id": "ml5ocotou57aizgpnzn",
+      "title": "Dori Qidiruv Bot Platformasi",
+      "description": "Foydalanuvchi dori nomini kiritishi orqali u haqda qisqa va aniq ma’lumot olishi mumkin bo‘lgan full-stack platforma. Loyiha OpenSearch asosida qurilgan bo‘lib, tezkor va aniq qidiruv imkoniyatini ta’minlaydi.",
+      "longDescription": "Mazkur loyiha foydalanuvchilarga dori nomlari bo‘yicha oddiy, tez va qulay qidiruv imkonini beruvchi servis sifatida ishlab chiqilgan. Foydalanuvchi dori nomini yozadi va tizim avtomatik ravishda dori haqida asosiy ma’lumotlarni taqdim etadi.\n\nPlatformada freemium model qo‘llanilgan:\nHar bir foydalanuvchiga 10 ta bepul qidiruv taqdim etiladi\n10 ta qidiruvdan so‘ng Pro tarif mavjud\nTo‘lov tizimi integratsiya qilinmagan (faqat tarif logikasi mavjud)",
+      "technologies": [
+        "OpenSearch",
+        "PostgreSQL ",
+        "JWT ",
+        "NestJS ",
+        "TypeORM ",
+        "Docker ",
+        "NextJS",
+        "Shadcn UI"
+      ],
+      "images": [
+        "/uploads/project_1770069142330_Screenshot_2026-02-03_025214.png",
+        "/uploads/project_1770069164168_Screenshot_2026-02-03_025237.png",
+        "/uploads/project_1770069184776_Screenshot_2026-02-03_025257.png",
+        "/uploads/project_1770069206900_Screenshot_2026-02-03_025321.png",
+        "/uploads/project_1770069233815_Screenshot_2026-02-03_025346.png",
+        "/uploads/project_1770068820433_Screenshot_2026-02-03_024653.png"
+      ],
+      "image": "/uploads/project_1770069142330_Screenshot_2026-02-03_025214.png",
+      "githubUrl": "https://github.com/qAbdullajon6/bot-admin",
+      "liveUrl": "https://bot-admin-psi.vercel.app/",
+      "featured": true,
+      "visible": true,
+      "order": 2,
+      "categories": [
+        "Frontend",
+        "Backend",
+        "Full Stack",
+        "Telegram Bot"
+      ],
+      "category": "Frontend",
+      "createdAt": "2026-02-02T21:21:12.876Z",
+      "updatedAt": "2026-02-02T22:01:19.156Z",
+      "swaggerUrl": "https://bot-backend-v7zi.onrender.com/api",
+      "githubLinks": [
+        {
+          "label": "Fronend",
+          "url": "https://github.com/qAbdullajon6/bot-admin",
+          "isPrivate": false
+        },
+        {
+          "label": "Backend",
+          "url": "https://github.com/qAbdullajon6/bot-backend",
+          "isPrivate": false
+        }
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "id": "1",
+      "title": "Full Stack Developer",
+      "company": "Tech Company",
+      "location": "Tashkent, Uzbekistan",
+      "startDate": "2023-01-01",
+      "endDate": "",
+      "current": true,
+      "responsibilities": [
+        "Developed and maintained full-stack web applications using React, Next.js, and NestJS",
+        "Implemented RESTful APIs and integrated third-party services",
+        "Optimized application performance resulting in 40% faster load times",
+        "Collaborated with cross-functional teams using Agile methodologies",
+        "Mentored junior developers and conducted code reviews"
+      ],
+      "visible": true,
+      "order": 1,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    }
+  ],
+  "education": [
+    {
+      "id": "1",
+      "degree": "Bachelor's Degree in Computer Science",
+      "institution": "Tashkent State Technical University",
+      "location": "Tashkent, Uzbekistan",
+      "startDate": "2018-09-01",
+      "endDate": "2022-06-01",
+      "description": "Specialized in Software Engineering and Web Development",
+      "visible": true,
+      "order": 1,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    }
+  ],
+  "certifications": [
+    {
+      "id": "1",
+      "name": "Modern React with Redux",
+      "issuer": "Udemy",
+      "date": "2023-01-01",
+      "url": "",
+      "visible": true,
+      "order": 1,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    },
+    {
+      "id": "2",
+      "name": "Node.js - The Complete Guide",
+      "issuer": "Udemy",
+      "date": "2023-02-01",
+      "url": "",
+      "visible": true,
+      "order": 2,
+      "createdAt": "2026-02-02T10:00:00Z",
+      "updatedAt": "2026-02-02T10:00:00Z"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ExternalLink,
@@ -11,8 +11,11 @@ import {
   Code,
   Layers,
   Eye,
+  Loader2,
 } from "lucide-react";
-import ProjectDetailModal, { ProjectDetail } from "./ProjectDetailModal";
+import ProjectDetailModal from "./ProjectDetailModal";
+import { Project } from "@/lib/types";
+import { getPortfolioApiUrl } from "@/lib/portfolio-api";
 
 type ProjectCategory =
   | "all"
@@ -22,243 +25,34 @@ type ProjectCategory =
   | "telegram"
   | "partial";
 
-const projects: ProjectDetail[] = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description:
-      "To'liq funksional onlayn do'kon. Foydalanuvchi autentifikatsiyasi, savat, to'lov tizimi va admin panel.",
-    fullDescription:
-      "Bu loyiha to'liq funksional e-commerce platformasi bo'lib, zamonaviy texnologiyalar yordamida qurilgan. Platforma foydalanuvchilar uchun qulay interfeys, admin panel, mahsulotlarni boshqarish, buyurtmalarni kuzatish va to'lov tizimini o'z ichiga oladi. Stripe orqali xavfsiz to'lovlar amalga oshiriladi.",
-    images: [
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: [
-      "React",
-      "Node.js",
-      "PostgreSQL",
-      "Stripe",
-      "Redis",
-      "Docker",
-    ],
-    category: ["fullstack"],
-    role: "Full Stack Developer",
-    duration: "3 oy",
-    isComplete: true,
-    links: {
-      live: "https://example.com",
-      github: "https://github.com/example",
-      swagger: "https://api.example.com/docs",
-    },
-    features: [
-      "Foydalanuvchi ro'yxatdan o'tish va kirish",
-      "Mahsulotlar katalogi va qidiruv",
-      "Savat va buyurtma tizimi",
-      "Stripe orqali to'lov",
-      "Admin panel",
-      "Buyurtmalarni kuzatish",
-    ],
-  },
-  {
-    id: 2,
-    title: "Task Management App",
-    description:
-      "Loyiha va vazifalarni boshqarish tizimi. Drag & drop, real-time yangilanishlar.",
-    fullDescription:
-      "Vazifalarni boshqarish uchun zamonaviy web ilovasi. Kanban board uslubida vazifalarni drag & drop orqali boshqarish, real-time yangilanishlar, komanda a'zolari bilan hamkorlik qilish imkoniyatlari mavjud.",
-    images: [
-      "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    category: ["frontend"],
-    role: "Frontend Developer",
-    duration: "1.5 oy",
-    isComplete: true,
-    links: {
-      live: "https://example.com",
-      github: "https://github.com/example",
-    },
-    features: [
-      "Drag & drop vazifa boshqaruvi",
-      "Kanban board ko'rinishi",
-      "Vazifalarni filtrlash",
-      "Real-time yangilanishlar",
-      "Responsive dizayn",
-    ],
-  },
-  {
-    id: 3,
-    title: "REST API Server",
-    description:
-      "Kengaytiriladigan va xavfsiz REST API. JWT autentifikatsiya, rate limiting, caching.",
-    fullDescription:
-      "Enterprise darajasidagi RESTful API server. Mikroservis arxitekturasi, JWT autentifikatsiya, rate limiting, caching, va to'liq API hujjatlari (Swagger) bilan ta'minlangan. Clean Architecture prinsiplariga amal qilingan.",
-    images: [
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["NestJS", "PostgreSQL", "Redis", "Docker", "Swagger", "JWT"],
-    category: ["backend"],
-    role: "Backend Developer",
-    duration: "2 oy",
-    isComplete: true,
-    links: {
-      github: "https://github.com/example",
-      swagger: "https://api.example.com/docs",
-      docs: "https://docs.example.com",
-    },
-    features: [
-      "JWT autentifikatsiya",
-      "Role-based access control",
-      "Rate limiting",
-      "Redis caching",
-      "Swagger dokumentatsiya",
-      "Unit va Integration testlar",
-    ],
-  },
-  {
-    id: 4,
-    title: "Telegram Shop Bot",
-    description:
-      "Avtomatlashtirilgan do'kon boti. Katalog, savat, to'lov va buyurtma kuzatish.",
-    fullDescription:
-      "Telegram platformasi uchun to'liq funksional do'kon boti. Foydalanuvchilar mahsulotlarni ko'rish, savatga qo'shish, buyurtma berish va to'lov qilish imkoniyatiga ega. Admin panel orqali mahsulotlar va buyurtmalarni boshqarish mumkin.",
-    images: [
-      "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1633675254053-d96c7668c3b8?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["Node.js", "Telegraf.js", "MongoDB", "Redis"],
-    category: ["telegram", "backend"],
-    role: "Backend Developer",
-    duration: "1.5 oy",
-    isComplete: true,
-    links: {
-      telegram: "https://t.me/example_bot",
-      github: "https://github.com/example",
-    },
-    features: [
-      "Mahsulotlar katalogi",
-      "Inline tugmalar bilan navigatsiya",
-      "Savat tizimi",
-      "To'lov integratsiyasi",
-      "Buyurtma holati kuzatuvi",
-      "Admin buyruqlari",
-    ],
-  },
-  {
-    id: 5,
-    title: "Portfolio Dizayn",
-    description:
-      "Kreativ portfolio sayti frontend qismi. Animatsiyalar va interaktiv elementlar.",
-    fullDescription:
-      "Kreativ dizaynerlar uchun portfolio veb-sayti. GSAP animatsiyalari, parallax effektlar va interaktiv galereyalar bilan boyitilgan. Faqat frontend qismi bajarilgan, backend integratsiya qilinmagan.",
-    images: [
-      "https://images.unsplash.com/photo-1545665277-5937489579f2?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["HTML", "CSS", "JavaScript", "GSAP"],
-    category: ["frontend", "partial"],
-    role: "Frontend Developer",
-    duration: "3 hafta",
-    isComplete: false,
-    links: {
-      live: "https://example.com",
-      figma: "https://figma.com/example",
-    },
-    features: [
-      "GSAP animatsiyalar",
-      "Parallax scroll effektlar",
-      "Interaktiv galereya",
-      "Responsive dizayn",
-    ],
-  },
-  {
-    id: 6,
-    title: "Telegram Admin Bot",
-    description:
-      "Guruh va kanallarni boshqarish uchun bot. Avtomatik moderatsiya va statistika.",
-    fullDescription:
-      "Telegram guruh va kanallarini boshqarish uchun kuchli admin bot. Avtomatik moderatsiya, spam filtrlash, statistika, foydalanuvchilarni boshqarish va boshqa ko'plab funksiyalar mavjud.",
-    images: [
-      "https://images.unsplash.com/photo-1633675254053-d96c7668c3b8?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["Node.js", "Telegraf.js", "PostgreSQL", "Redis"],
-    category: ["telegram", "backend"],
-    role: "Full Stack Developer",
-    duration: "1 oy",
-    isComplete: true,
-    links: {
-      telegram: "https://t.me/admin_example_bot",
-      github: "https://github.com/example",
-    },
-    features: [
-      "Avtomatik spam filtrlash",
-      "Foydalanuvchilarni ban/unban",
-      "Statistika va analitika",
-      "Xabarlarni rejalashtirish",
-      "Anti-flood himoyasi",
-    ],
-  },
-  {
-    id: 7,
-    title: "Dashboard UI",
-    description:
-      "Analitik dashboard interfeysi. Grafiklar, jadvallar va real-time ma'lumotlar.",
-    fullDescription:
-      "Biznes analitikasi uchun zamonaviy dashboard interfeysi. Interaktiv grafiklar, jadvallar, filtrlash va real-time ma'lumotlar ko'rsatish imkoniyatlari mavjud. Chart.js kutubxonasi yordamida vizualizatsiya qilingan.",
-    images: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["React", "Chart.js", "Tailwind CSS", "TypeScript"],
-    category: ["frontend"],
-    role: "Frontend Developer",
-    duration: "1 oy",
-    isComplete: true,
-    links: {
-      live: "https://example.com",
-    },
-    features: [
-      "Interaktiv grafiklar",
-      "Real-time yangilanishlar",
-      "Ma'lumotlarni eksport qilish",
-      "Filtrlash va qidiruv",
-      "Dark/Light tema",
-    ],
-  },
-  {
-    id: 8,
-    title: "Microservices Backend",
-    description:
-      "Microservices arxitekturadagi backend. Message queue va service discovery.",
-    fullDescription:
-      "Microservices arxitekturasida qurilgan backend tizimi. RabbitMQ message queue, Docker konteynerlar, Kubernetes orkestratsiya va service discovery mexanizmlari bilan. Loyihada qisman ishtirok etilgan.",
-    images: [
-      "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&auto=format&fit=crop&q=60",
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=60",
-    ],
-    technologies: ["NestJS", "RabbitMQ", "Docker", "Kubernetes", "PostgreSQL"],
-    category: ["backend", "partial"],
-    role: "Backend Developer",
-    duration: "2 oy",
-    isComplete: false,
-    links: {
-      github: "https://github.com/example",
-      docs: "https://docs.example.com",
-    },
-    features: [
-      "Microservices arxitektura",
-      "RabbitMQ message queue",
-      "Docker konteynerizatsiya",
-      "API Gateway",
-      "Service discovery",
-    ],
-  },
-];
+const DEFAULT_PLACEHOLDER_IMAGE =
+  "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=60";
+
+/** Kategoriya nomi -> filter key */
+const CATEGORY_TO_KEY: Record<string, ProjectCategory> = {
+  Frontend: "frontend",
+  Backend: "backend",
+  "Full Stack": "fullstack",
+  "Telegram Bot": "telegram",
+  Qisman: "partial",
+};
+
+const VALID_CATEGORY_KEYS: ProjectCategory[] = ["frontend", "backend", "fullstack", "telegram", "partial"];
+
+/** Loyihaning barcha kategoriya keylari (filtrlash uchun) */
+function getProjectCategoryKeys(project: Project): ProjectCategory[] {
+  const keys: ProjectCategory[] = [];
+  const categories = project.categories ?? (project.category ? [project.category] : []);
+  for (const cat of categories) {
+    const key = (CATEGORY_TO_KEY[cat] ?? cat?.toLowerCase().replace(/\s+/g, "")) as ProjectCategory;
+    if (key && VALID_CATEGORY_KEYS.includes(key) && !keys.includes(key)) keys.push(key);
+  }
+  const status = project.status?.toLowerCase() ?? "";
+  if ((status.includes("qisman") || status.includes("partial")) && !keys.includes("partial")) {
+    keys.push("partial");
+  }
+  return keys;
+}
 
 const filters: { key: ProjectCategory; label: string; icon: typeof Globe }[] = [
   { key: "all", label: "Barchasi", icon: Layers },
@@ -274,12 +68,18 @@ const ProjectCard = ({
   index,
   onViewDetails,
 }: {
-  project: ProjectDetail;
+  project: Project;
   index: number;
-  onViewDetails: (project: ProjectDetail) => void;
+  onViewDetails: (project: Project) => void;
 }) => {
   const cardRef = useRef(null);
   const isInView = useInView(cardRef, { once: true, margin: "-50px" });
+  const mainImage =
+    project.images?.[0]?.trim() ?? project.image?.trim();
+  const imageUrl = mainImage || DEFAULT_PLACEHOLDER_IMAGE;
+  const technologies = Array.isArray(project.technologies)
+    ? project.technologies
+    : [];
 
   return (
     <motion.div
@@ -297,9 +97,15 @@ const ProjectCard = ({
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <motion.img
-          src={project.images[0]}
-          alt={project.title}
+          src={imageUrl}
+          alt={project.title ?? "Loyiha"}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (target.src !== DEFAULT_PLACEHOLDER_IMAGE) {
+              target.src = DEFAULT_PLACEHOLDER_IMAGE;
+            }
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
 
@@ -319,29 +125,20 @@ const ProjectCard = ({
           </motion.div>
         </div>
 
-        {/* Completion badge */}
+        {/* Status badge */}
         <div className="absolute top-4 right-4">
           <span
             className={`px-3 py-1 rounded-full text-xs font-mono 
                           ${
-                            project.isComplete
+                            project.status?.toLowerCase().includes("to'liq") ||
+                            project.featured
                               ? "bg-secondary/20 text-secondary border border-secondary/30"
                               : "bg-accent/20 text-accent border border-accent/30"
                           }`}
           >
-            {project.isComplete ? "To'liq" : "Qisman"}
+            {project.status ?? (project.featured ? "To'liq" : "Loyiha")}
           </span>
         </div>
-
-        {/* Image count indicator */}
-        {project.images.length > 1 && (
-          <div
-            className="absolute bottom-4 right-4 bg-background/80 backdrop-blur-sm 
-                          px-2 py-1 rounded text-xs text-foreground"
-          >
-            📷 {project.images.length}
-          </div>
-        )}
       </div>
 
       {/* Content */}
@@ -355,23 +152,23 @@ const ProjectCard = ({
 
         {/* Technologies */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {project.technologies.slice(0, 4).map((tech) => (
-            <span key={tech} className="tech-badge text-xs">
+          {technologies.slice(0, 4).map((tech) => (
+            <span key={String(tech)} className="tech-badge text-xs">
               {tech}
             </span>
           ))}
-          {project.technologies.length > 4 && (
+          {technologies.length > 4 && (
             <span className="text-xs text-muted-foreground">
-              +{project.technologies.length - 4}
+              +{technologies.length - 4}
             </span>
           )}
         </div>
 
         {/* Quick links */}
         <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
-          {project.links.live && (
+          {project.liveUrl && (
             <motion.a
-              href={project.links.live}
+              href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
@@ -383,21 +180,31 @@ const ProjectCard = ({
               Demo
             </motion.a>
           )}
-          {project.links.github && (
-            <motion.a
-              href={project.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border 
-                         text-muted-foreground text-sm font-medium hover:text-foreground 
-                         hover:border-muted-foreground transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              Kod
-            </motion.a>
-          )}
+          {/* GitHub – birinchi ochiq linkni ko'rsatish */}
+          {(() => {
+            const links = project.githubLinks?.length
+              ? project.githubLinks
+              : project.githubUrl
+                ? [{ label: "GitHub", url: project.githubUrl, isPrivate: false }]
+                : [];
+            const firstPublic = links.find((l) => !l.isPrivate);
+            if (!firstPublic) return null;
+            return (
+              <motion.a
+                href={firstPublic.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border 
+                           text-muted-foreground text-sm font-medium hover:text-foreground 
+                           hover:border-muted-foreground transition-colors"
+              >
+                <Github className="w-4 h-4" />
+                Kod
+              </motion.a>
+            );
+          })()}
         </div>
       </div>
 
@@ -410,26 +217,48 @@ const ProjectCard = ({
 };
 
 const ProjectsSection = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<ProjectCategory>("all");
-  const [selectedProject, setSelectedProject] = useState<ProjectDetail | null>(
-    null,
-  );
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const filteredProjects = projects.filter(
-    (project) =>
-      activeFilter === "all" || project.category.includes(activeFilter),
-  );
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch(getPortfolioApiUrl());
+        const json = await res.json();
+        if (!res.ok) {
+          throw new Error(json.message ?? "Ma'lumotlarni yuklashda xatolik");
+        }
+        const list = json?.data?.projects;
+        setProjects(Array.isArray(list) ? list : []);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Ma'lumotlarni yuklashda xatolik"
+        );
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProjects();
+  }, []);
 
-  const handleViewDetails = (project: ProjectDetail) => {
+  const filteredProjects =
+    activeFilter === "all"
+      ? projects
+      : projects.filter((p) => getProjectCategoryKeys(p).includes(activeFilter));
+
+  const handleViewDetails = (project: Project) => {
     setSelectedProject(project);
-    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
     setSelectedProject(null);
   };
 
@@ -491,32 +320,63 @@ const ProjectsSection = () => {
             ))}
           </motion.div>
 
+          {/* Loading */}
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex flex-col items-center justify-center py-20 gap-4"
+            >
+              <Loader2 className="w-12 h-12 animate-spin text-primary" />
+              <p className="text-muted-foreground">Loyihalar yuklanmoqda...</p>
+            </motion.div>
+          )}
+
+          {/* Error */}
+          {!loading && error && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <p className="text-destructive mb-4">{error}</p>
+              <p className="text-muted-foreground text-sm">
+                Keyinroq qayta urinib ko&apos;ring yoki backend server ishlatayotganingizni tekshiring.
+              </p>
+            </motion.div>
+          )}
+
           {/* Projects grid */}
-          <motion.div
-            layout
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  onViewDetails={handleViewDetails}
-                />
-              ))}
-            </AnimatePresence>
-          </motion.div>
+          {!loading && !error && (
+            <motion.div
+              layout
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+              initial={false}
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    index={index}
+                    onViewDetails={handleViewDetails}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
 
           {/* Empty state */}
-          {filteredProjects.length === 0 && (
+          {!loading && !error && filteredProjects.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="text-center py-20"
             >
               <p className="text-muted-foreground text-lg">
-                Bu kategoriyada loyihalar topilmadi
+                {projects.length === 0
+                  ? "Hozircha loyihalar yo&apos;q. Backend orqali qo&apos;shiladi."
+                  : "Bu kategoriyada loyihalar topilmadi"}
               </p>
             </motion.div>
           )}
@@ -526,7 +386,6 @@ const ProjectsSection = () => {
       {/* Project Detail Modal */}
       <ProjectDetailModal
         project={selectedProject}
-        isOpen={isModalOpen}
         onClose={handleCloseModal}
       />
     </>

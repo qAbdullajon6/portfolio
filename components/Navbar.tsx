@@ -8,6 +8,7 @@ const navLinks = [
   { href: "#", label: "Bosh sahifa" },
   { href: "#skills", label: "Ko'nikmalar" },
   { href: "#projects", label: "Loyihalar" },
+  { href: "/resume", label: "Resume" },
   { href: "#contact", label: "Aloqa" },
 ];
 
@@ -75,13 +76,13 @@ const Navbar = () => {
 
             {/* CTA Button */}
             <motion.a
-              href="#contact"
+              href="/resume"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="hidden md:flex px-5 py-2.5 rounded-xl bg-primary text-primary-foreground 
                        font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
             >
-              Bog'lanish
+              Resume
             </motion.a>
 
             {/* Mobile Menu Button */}
@@ -128,7 +129,7 @@ const Navbar = () => {
                   </motion.a>
                 ))}
                 <motion.a
-                  href="#contact"
+                  href="/resume"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
@@ -136,7 +137,7 @@ const Navbar = () => {
                   className="mt-4 py-4 rounded-xl bg-primary text-primary-foreground 
                            font-semibold text-center text-lg"
                 >
-                  Bog'lanish
+                  Resume
                 </motion.a>
               </div>
             </div>

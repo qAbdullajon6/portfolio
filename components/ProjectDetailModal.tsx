@@ -1,19 +1,8 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  X,
-  ExternalLink,
-  Github,
-  FileCode,
-  Bot,
-  Globe,
-  Server,
-  Calendar,
-  User,
-  CheckCircle,
-  Clock,
-} from "lucide-react";
+import { ExternalLink, Github, Globe, CheckCircle, X, ChevronLeft, ChevronRight, FileJson } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -21,107 +10,88 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { useState } from "react";
-
-export interface ProjectDetail {
-  id: number;
-  title: string;
-  description: string;
-  fullDescription: string;
-  images: string[];
-  technologies: string[];
-  category: string[];
-  isComplete: boolean;
-  role: string;
-  duration: string;
-  links: {
-    live?: string;
-    github?: string;
-    swagger?: string;
-    telegram?: string;
-    figma?: string;
-    docs?: string;
-  };
-  features: string[];
-}
+import { Project } from "@/lib/types";
 
 interface ProjectDetailModalProps {
-  project: ProjectDetail | null;
-  isOpen: boolean;
+  project: Project | null;
   onClose: () => void;
 }
 
-const ProjectDetailModal = ({
-  project,
-  isOpen,
-  onClose,
-}: ProjectDetailModalProps) => {
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
+  const allImages: string[] =
+    (project?.images?.length ? project.images : project?.image ? [project.image] : []) ?? [];
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const goPrev = useCallback(() => {
+    if (allImages.length === 0) return;
+    setLightboxIndex((i) => (i === null ? null : i === 0 ? allImages.length - 1 : i - 1));
+  }, [allImages.length]);
+  const goNext = useCallback(() => {
+    if (allImages.length === 0) return;
+    setLightboxIndex((i) => (i === null ? null : (i + 1) % allImages.length));
+  }, [allImages.length]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxIndex, goPrev, goNext]);
 
   if (!project) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border p-0">
-        {/* Image Gallery */}
-        <div className="relative">
-          <div className="relative h-64 md:h-80 overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={activeImageIndex}
-                src={project.images[activeImageIndex]}
-                alt={project.title}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="w-full h-full object-cover"
-              />
-            </AnimatePresence>
-            <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-          </div>
+    <>
+      <Dialog open={!!project} onOpenChange={onClose}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-card border-border p-0">
+          {/* Project Image(s) – bosganda katta ekranda (lightbox) */}
+          <div className="relative p-4 sm:p-6">
+            {allImages.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
+                {allImages.map((url, i) => (
+                  <motion.button
+                    key={url + i}
+                    type="button"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: i * 0.05 }}
+                    onClick={() => setLightboxIndex(i)}
+                    className="relative w-full max-w-[400px] aspect-square rounded-xl overflow-hidden border border-border bg-muted shadow-lg cursor-pointer hover:ring-2 hover:ring-primary/50 focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                  >
+                    <img
+                      src={url}
+                      alt={`${project.title} – rasm ${i + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <span className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/40 text-white text-sm font-medium rounded-xl">
+                      Kattaroq ko&apos;rish
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 aspect-video min-h-[200px]">
+                <span className="text-8xl">💼</span>
+              </div>
+            )}
 
-          {/* Image thumbnails */}
-          {project.images.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {project.images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveImageIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === activeImageIndex
-                      ? "bg-primary w-8"
-                      : "bg-muted-foreground/50 hover:bg-muted-foreground"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Status badge */}
-          <div className="absolute top-4 right-4">
-            <Badge
-              variant="outline"
-              className={`${
-                project.isComplete
-                  ? "bg-secondary/20 text-secondary border-secondary/30"
-                  : "bg-accent/20 text-accent border-accent/30"
-              }`}
-            >
-              {project.isComplete ? (
-                <>
+            {/* Featured badge */}
+            {project.featured && (
+              <div className="absolute top-6 right-6">
+                <Badge
+                  variant="outline"
+                  className="bg-primary/20 text-primary border-primary/30"
+                >
                   <CheckCircle className="w-3 h-3 mr-1" />
-                  To&apos;liq bajarilgan
-                </>
-              ) : (
-                <>
-                  <Clock className="w-3 h-3 mr-1" />
-                  Qisman ishtirok
-                </>
-              )}
-            </Badge>
+                  Featured
+                </Badge>
+              </div>
+            )}
           </div>
-        </div>
 
         <div className="p-6 space-y-6">
           {/* Header */}
@@ -131,50 +101,15 @@ const ProjectDetailModal = ({
             </DialogTitle>
           </DialogHeader>
 
-          {/* Meta info */}
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <User className="w-4 h-4 text-primary" />
-              <span>{project.role}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-primary" />
-              <span>{project.duration}</span>
-            </div>
-          </div>
-
           {/* Description */}
           <div className="space-y-3">
             <h4 className="text-lg font-semibold text-foreground">
               Loyiha haqida
             </h4>
             <p className="text-muted-foreground leading-relaxed">
-              {project.fullDescription}
+              {project.longDescription || project.description}
             </p>
           </div>
-
-          {/* Features */}
-          {project.features.length > 0 && (
-            <div className="space-y-3">
-              <h4 className="text-lg font-semibold text-foreground">
-                Asosiy funksiyalar
-              </h4>
-              <ul className="grid md:grid-cols-2 gap-2">
-                {project.features.map((feature, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="flex items-start gap-2 text-muted-foreground"
-                  >
-                    <span className="text-primary mt-1">▸</span>
-                    <span>{feature}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           {/* Technologies */}
           <div className="space-y-3">
@@ -182,8 +117,11 @@ const ProjectDetailModal = ({
               Ishlatilgan texnologiyalar
             </h4>
             <div className="flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span key={tech} className="tech-badge">
+              {(project.technologies ?? []).map((tech: string) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-medium border border-primary/20"
+                >
                   {tech}
                 </span>
               ))}
@@ -194,9 +132,9 @@ const ProjectDetailModal = ({
           <div className="space-y-3">
             <h4 className="text-lg font-semibold text-foreground">Havolalar</h4>
             <div className="grid sm:grid-cols-2 gap-3">
-              {project.links.live && (
+              {project.liveUrl && (
                 <motion.a
-                  href={project.links.live}
+                  href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02, y: -2 }}
@@ -215,115 +153,141 @@ const ProjectDetailModal = ({
                 </motion.a>
               )}
 
-              {project.links.swagger && (
+              {/* GitHub linklar – bir nechta bo'lishi mumkin */}
+              {(project.githubLinks?.length
+                ? project.githubLinks
+                : project.githubUrl
+                  ? [{ label: "GitHub", url: project.githubUrl, isPrivate: false }]
+                  : []
+              ).map((link, i) => (
                 <motion.a
-                  href={project.links.swagger}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-secondary/10 border border-secondary/30 
-                             text-secondary hover:bg-secondary/20 transition-colors group"
-                >
-                  <FileCode className="w-5 h-5" />
-                  <div className="flex-1">
-                    <div className="font-medium">Swagger API</div>
-                    <div className="text-xs text-secondary/70">
-                      API hujjatlari
-                    </div>
-                  </div>
-                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.a>
-              )}
-
-              {project.links.github && (
-                <motion.a
-                  href={project.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-muted border border-border 
-                             text-foreground hover:border-muted-foreground transition-colors group"
+                  key={link.url + i}
+                  href={link.isPrivate ? undefined : link.url}
+                  target={link.isPrivate ? undefined : "_blank"}
+                  rel={link.isPrivate ? undefined : "noopener noreferrer"}
+                  whileHover={link.isPrivate ? {} : { scale: 1.02, y: -2 }}
+                  whileTap={link.isPrivate ? {} : { scale: 0.98 }}
+                  className={`flex items-center gap-3 p-4 rounded-xl border transition-colors group ${
+                    link.isPrivate
+                      ? "bg-muted/50 border-border text-muted-foreground cursor-not-allowed opacity-70"
+                      : "bg-muted border-border text-foreground hover:border-muted-foreground"
+                  }`}
+                  onClick={link.isPrivate ? (e) => e.preventDefault() : undefined}
+                  title={link.isPrivate ? "Bu repo berk (private)" : undefined}
                 >
                   <Github className="w-5 h-5" />
                   <div className="flex-1">
-                    <div className="font-medium">GitHub</div>
+                    <div className="font-medium flex items-center gap-2">
+                      {link.label || "GitHub"}
+                      {link.isPrivate && (
+                        <span className="px-1.5 py-0.5 text-[10px] font-semibold bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded">
+                          BERK
+                        </span>
+                      )}
+                    </div>
                     <div className="text-xs text-muted-foreground">
-                      Manba kodi
+                      {link.isPrivate ? "Private repository" : "Manba kodi"}
                     </div>
                   </div>
-                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  {!link.isPrivate && (
+                    <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  )}
                 </motion.a>
-              )}
+              ))}
 
-              {project.links.telegram && (
+              {project.swaggerUrl && (
                 <motion.a
-                  href={project.links.telegram}
+                  href={project.swaggerUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-accent/10 border border-accent/30 
-                             text-accent hover:bg-accent/20 transition-colors group"
+                  className="flex items-center gap-3 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 
+                             text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors group"
                 >
-                  <Bot className="w-5 h-5" />
+                  <FileJson className="w-5 h-5" />
                   <div className="flex-1">
-                    <div className="font-medium">Telegram Bot</div>
-                    <div className="text-xs text-accent/70">
-                      Botni ishga tushirish
-                    </div>
-                  </div>
-                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.a>
-              )}
-
-              {project.links.figma && (
-                <motion.a
-                  href={project.links.figma}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-pink-500/10 border border-pink-500/30 
-                             text-pink-400 hover:bg-pink-500/20 transition-colors group"
-                >
-                  <Server className="w-5 h-5" />
-                  <div className="flex-1">
-                    <div className="font-medium">Figma</div>
-                    <div className="text-xs text-pink-400/70">
-                      Dizayn fayllari
-                    </div>
-                  </div>
-                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.a>
-              )}
-
-              {project.links.docs && (
-                <motion.a
-                  href={project.links.docs}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 
-                             text-yellow-400 hover:bg-yellow-500/20 transition-colors group"
-                >
-                  <FileCode className="w-5 h-5" />
-                  <div className="flex-1">
-                    <div className="font-medium">Hujjatlar</div>
-                    <div className="text-xs text-yellow-400/70">
-                      To&apos;liq qo&apos;llanma
+                    <div className="font-medium">API / Swagger</div>
+                    <div className="text-xs text-emerald-600/70 dark:text-emerald-400/70">
+                      Backend hujjatlari
                     </div>
                   </div>
                   <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </motion.a>
               )}
             </div>
+
+            {!project.liveUrl && !project.githubUrl && !project.githubLinks?.length && !project.swaggerUrl && (
+              <p className="text-center text-muted-foreground py-4">
+                Havolalar mavjud emas
+              </p>
+            )}
           </div>
         </div>
       </DialogContent>
     </Dialog>
+
+      {/* Lightbox – rasmni katta ekranda ko'rish (slayd) */}
+      <AnimatePresence>
+        {lightboxIndex !== null && allImages[lightboxIndex] && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4"
+            onClick={() => setLightboxIndex(null)}
+          >
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+              aria-label="Yopish"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {allImages.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+                  aria-label="Oldingi"
+                >
+                  <ChevronLeft className="w-8 h-8" />
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goNext(); }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors z-10"
+                  aria-label="Keyingi"
+                >
+                  <ChevronRight className="w-8 h-8" />
+                </button>
+              </>
+            )}
+
+            <motion.img
+              key={lightboxIndex}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              src={allImages[lightboxIndex]}
+              alt={`${project.title} – rasm ${lightboxIndex + 1}`}
+              className="max-w-full max-h-[85vh] w-auto h-auto object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            {allImages.length > 1 && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/80 text-sm">
+                {lightboxIndex + 1} / {allImages.length}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

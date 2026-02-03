@@ -10,6 +10,7 @@ Portfolio website migrated from Vite+React to Next.js 14 with App Router.
 - ✅ **Framer Motion** for animations
 - ✅ **Email Contact Form** with Nodemailer
 - ✅ **Particle Background** with tsParticles
+- ✅ **Admin Panel** for content management (Skills, Projects, Resume)
 - ✅ **Responsive Design**
 - ✅ **SEO Optimized**
 
@@ -31,6 +32,11 @@ SMTP_PORT=587
 SMTP_USER=your-email@gmail.com
 SMTP_PASS=your-app-password
 CONTACT_EMAIL=your-email@gmail.com
+
+# Admin Panel (optional)
+JWT_SECRET=your-super-secret-jwt-key
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
 ```
 
 **Important for Gmail users:**
@@ -134,6 +140,66 @@ Colors are defined in `app/globals.css` using CSS variables. Update the `:root` 
 ### Change Animations
 
 Animations are built with Framer Motion. Check component files for animation configurations.
+
+## Admin Panel
+
+This portfolio includes a powerful admin panel for managing your content dynamically!
+
+### Features
+
+- 🔐 **Secure Authentication** - JWT-based login system
+- 📝 **Content Management** - Manage skills, projects, experience, education, and certifications
+- 👁️ **Visibility Control** - Show/hide items without deleting them
+- ✏️ **CRUD Operations** - Create, Read, Update, Delete all content
+- 🎨 **Modern UI** - Beautiful, responsive dashboard
+- 📊 **Real-time Updates** - Changes reflect immediately
+
+### Access Admin Panel
+
+1. **Login Page**: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+2. **Default Credentials**:
+   - Username: `admin`
+   - Password: `admin123`
+
+> ⚠️ **Important**: Change the default password in production!
+
+### Admin Panel Features
+
+#### Skills Management
+
+- Add/Edit/Delete technical skills
+- Organize by category (Frontend, Backend, Tools, etc.)
+- Toggle visibility for each skill
+
+#### Projects Management
+
+- Add/Edit/Delete portfolio projects
+- Set project details (title, description, technologies, links)
+- Mark projects as featured
+- Show/hide projects
+
+#### Experience Management
+
+- Add/Edit/Delete work experience
+- Set job details (title, company, location, dates)
+- Add responsibilities list
+- Toggle visibility
+
+#### Education Management
+
+- Add/Edit/Delete education entries
+- Set degree, institution, dates, description
+- Toggle visibility
+
+#### Certifications Management
+
+- Add/Edit/Delete certifications
+- Set name, issuer, date, URL
+- Toggle visibility
+
+### Documentation
+
+For detailed admin panel documentation, see [ADMIN_PANEL.md](./ADMIN_PANEL.md)
 
 ## License
 
