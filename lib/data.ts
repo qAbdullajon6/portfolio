@@ -34,14 +34,19 @@ async function readFromBlob(): Promise<PortfolioData | null> {
 /** Vercel Blob ga yozish */
 async function writeToBlob(data: PortfolioData): Promise<void> {
   const token = process.env.BLOB_READ_WRITE_TOKEN;
-  if (!token?.trim()) throw new Error("BLOB_READ_WRITE_TOKEN not set");
-  const { put } = await import("@vercel/blob");
-  const json = JSON.stringify(data, null, 2);
-  await put(BLOB_PATHNAME, json, {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-  });
+  if (!token?.trim()) throw new Error("BLOB_READ_WRITE_TOKEN o'rnatilmagan. Vercel Dashboard → Storage → Blob Store yarating va token ni Environment Variables ga qo'shing.");
+  try {
+    const { put } = await import("@vercel/blob");
+    const json = JSON.stringify(data, null, 2);
+    await put(BLOB_PATHNAME, json, {
+      access: "public",
+      contentType: "application/json",
+      addRandomSuffix: false,
+    });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    throw new Error("Vercel Blob ga yozish xato: " + msg + ". Token va Blob Store ni tekshiring.");
+  }
 }
 
 /** Ma'lumotlarni o'qish (fayl yoki Vercel Blob) */
@@ -98,10 +103,12 @@ export async function writePortfolioData(data: PortfolioData): Promise<void> {
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error("Error writing portfolio data:", dataPath, error);
+    const hint =
+      "Vercel/Netlify da: Dashboard → Storage → Blob Store yarating, BLOB_READ_WRITE_TOKEN ni Environment Variables ga qo'shing. Lokalda: data/ papkasi yozish uchun ochiq bo'lishi kerak.";
     throw new Error(
-      msg.includes("EACCES") || msg.includes("EPERM")
-        ? "Fayl yozish ruxsati yo'q. Serverda PORTFOLIO_DATA_PATH yoki Vercel Blob ishlating."
-        : "Failed to write portfolio data"
+      msg.includes("EACCES") || msg.includes("EPERM") || msg.includes("read-only")
+        ? `Fayl yozish mumkin emas. ${hint}`
+        : `Saqlash xato: ${msg}. ${hint}`
     );
   }
 }

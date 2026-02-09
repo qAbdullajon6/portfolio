@@ -240,9 +240,9 @@
       "liveUrl": "https://bojxonaservis.uz/",
       "featured": true,
       "visible": true,
-      "order": 2,
+      "order": 3,
       "createdAt": "2026-02-02T21:04:27.488Z",
-      "updatedAt": "2026-02-09T19:44:00.576Z",
+      "updatedAt": "2026-02-09T20:50:39.028Z",
       "images": [
         "/uploads/project_1770068322944_Screenshot_2026-02-03_022902.png",
         "/uploads/project_1770068364965_Screenshot_2026-02-03_023919.png",
@@ -283,7 +283,7 @@
       "liveUrl": "https://bot-admin-psi.vercel.app/",
       "featured": true,
       "visible": true,
-      "order": 1,
+      "order": 2,
       "categories": [
         "Frontend",
         "Backend",
@@ -292,7 +292,7 @@
       ],
       "category": "Frontend",
       "createdAt": "2026-02-02T21:21:12.876Z",
-      "updatedAt": "2026-02-09T20:06:56.274Z",
+      "updatedAt": "2026-02-09T20:50:40.493Z",
       "swaggerUrl": "https://bot-backend-v7zi.onrender.com/api",
       "githubLinks": [
         {
@@ -307,6 +307,62 @@
         }
       ],
       "telegramBotUrl": "https://t.me/DoriMalumotBot"
+    },
+    {
+      "id": "mlfnbz8rf0fxzl5s6qc",
+      "title": "Human Resource Management System",
+      "description": "HRMS (Human Resource Management System) — xodimlar, bo‘limlar, ta’tillar, maosh, davomat va boshqa modullarni boshqarish uchun React SPA.\n\n",
+      "longDescription": "Frontend HRMS backend API bilan ishlaydi. Foydalanuvchilar tizimga kirishi (login), xodimlar va nomzodlar ro‘yxati, ta’til so‘rovlari, maosh, davomat (check-in/check-out), bayramlar, vakansiyalar, sozlamalar (2FA, email bildirishnomalar, ish vaqti) kabi sahifalardan foydalanadi. Rollar: admin, hr, employee — ruxsatlar ularga qarab belgilanadi.\n\n",
+      "technologies": [
+        "TypeScript",
+        "React 19",
+        "Redux Toolkit",
+        "TanStack Query",
+        "Node.js",
+        "Express.js 5",
+        "PostgreSQL",
+        "Sequelize 6,",
+        "JWT ",
+        "Swagger ",
+        "2FA "
+      ],
+      "images": [
+        "/uploads/project_1770669780081_Screenshot_2026-02-10_013913.png",
+        "/uploads/project_1770669801038_Screenshot_2026-02-10_014314.png",
+        "/uploads/project_1770669887738_Screenshot_2026-02-10_014434.png",
+        "/uploads/project_1770670019159_Screenshot_2026-02-10_014651.png",
+        "/uploads/project_1770670034907_Screenshot_2026-02-10_014708.png",
+        "/uploads/project_1770670051706_Screenshot_2026-02-10_014725.png",
+        "/uploads/project_1770670068873_Screenshot_2026-02-10_014741.png"
+      ],
+      "image": "/uploads/project_1770669780081_Screenshot_2026-02-10_013913.png",
+      "githubLinks": [
+        {
+          "label": "Fronend",
+          "url": "https://github.com/qAbdullajon6/hrms-frontend",
+          "isPrivate": false
+        },
+        {
+          "label": "Backend",
+          "url": "https://github.com/qAbdullajon6/hrms-backend",
+          "isPrivate": false
+        }
+      ],
+      "githubUrl": "https://github.com/qAbdullajon6/hrms-frontend",
+      "liveUrl": "https://hrms-frontend-seven-tau.vercel.app/",
+      "swaggerUrl": "https://hrms-backend-1vfi.onrender.com/api-docs",
+      "telegramBotUrl": "",
+      "featured": true,
+      "visible": true,
+      "order": 1,
+      "categories": [
+        "Backend",
+        "Frontend",
+        "Full Stack"
+      ],
+      "category": "Backend",
+      "createdAt": "2026-02-09T20:50:21.867Z",
+      "updatedAt": "2026-02-09T20:50:40.472Z"
     }
   ],
   "experiences": [

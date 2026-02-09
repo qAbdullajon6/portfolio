@@ -147,8 +147,8 @@ export async function PUT(request: NextRequest) {
   } catch (error) {
     console.error("Error updating project:", error);
     const message =
-      error instanceof Error && error.message.includes("write")
-        ? "Ma'lumotni saqlab bo'lmadi. Serverda fayl yozish imkoni bo'lmasa, ma'lumotlar bazasi ishlatishingiz kerak."
+      error instanceof Error
+        ? error.message
         : "Failed to update project";
     return NextResponse.json(
       { success: false, message },
