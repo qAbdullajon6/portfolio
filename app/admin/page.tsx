@@ -128,12 +128,19 @@ export default function AdminDashboard() {
       });
 
       const data = await response.json();
+      if (!response.ok) {
+        toast.error(data?.message || `Server xatosi (${response.status})`);
+        return;
+      }
       if (data.success) {
         loadData(token);
         toast.success(currentVisibility ? "Yashirildi" : "Ko'rsatildi");
+      } else {
+        toast.error(data.message || "Yashirish/ko'rsatish amalga oshmadi");
       }
     } catch (error) {
-      toast.error("Xatolik yuz berdi");
+      console.error("toggleVisibility error:", error);
+      toast.error("Xatolik yuz berdi. Server javob bermayotgan bo'lishi mumkin.");
     }
   };
 

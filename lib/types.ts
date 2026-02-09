@@ -37,6 +37,8 @@ export interface Project {
   liveUrl?: string;
   /** Backend API / Swagger hujjatlari URL */
   swaggerUrl?: string;
+  /** Telegram bot havolasi (t.me/botname) */
+  telegramBotUrl?: string;
   featured: boolean;
   visible: boolean;
   order: number;

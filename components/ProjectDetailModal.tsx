@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Github, Globe, CheckCircle, X, ChevronLeft, ChevronRight, FileJson } from "lucide-react";
+import { ExternalLink, Github, Globe, CheckCircle, X, ChevronLeft, ChevronRight, FileJson, Send } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -215,9 +215,30 @@ const ProjectDetailModal = ({ project, onClose }: ProjectDetailModalProps) => {
                   <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </motion.a>
               )}
+
+              {project.telegramBotUrl && (
+                <motion.a
+                  href={project.telegramBotUrl.startsWith("http") ? project.telegramBotUrl : `https://${project.telegramBotUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-sky-500/10 border border-sky-500/30 
+                             text-sky-600 dark:text-sky-400 hover:bg-sky-500/20 transition-colors group"
+                >
+                  <Send className="w-5 h-5" />
+                  <div className="flex-1">
+                    <div className="font-medium">Telegram Bot</div>
+                    <div className="text-xs text-sky-600/70 dark:text-sky-400/70">
+                      Botga o&apos;tish
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.a>
+              )}
             </div>
 
-            {!project.liveUrl && !project.githubUrl && !project.githubLinks?.length && !project.swaggerUrl && (
+            {!project.liveUrl && !project.githubUrl && !project.githubLinks?.length && !project.swaggerUrl && !project.telegramBotUrl && (
               <p className="text-center text-muted-foreground py-4">
                 Havolalar mavjud emas
               </p>

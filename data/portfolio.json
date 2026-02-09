@@ -240,9 +240,9 @@
       "liveUrl": "https://bojxonaservis.uz/",
       "featured": true,
       "visible": true,
-      "order": 1,
+      "order": 2,
       "createdAt": "2026-02-02T21:04:27.488Z",
-      "updatedAt": "2026-02-02T21:41:47.064Z",
+      "updatedAt": "2026-02-09T19:44:00.576Z",
       "images": [
         "/uploads/project_1770068322944_Screenshot_2026-02-03_022902.png",
         "/uploads/project_1770068364965_Screenshot_2026-02-03_023919.png",
@@ -252,7 +252,8 @@
       "categories": [
         "Frontend"
       ],
-      "category": "Frontend"
+      "category": "Frontend",
+      "githubLinks": []
     },
     {
       "id": "ml5ocotou57aizgpnzn",
@@ -282,7 +283,7 @@
       "liveUrl": "https://bot-admin-psi.vercel.app/",
       "featured": true,
       "visible": true,
-      "order": 2,
+      "order": 1,
       "categories": [
         "Frontend",
         "Backend",
@@ -291,7 +292,7 @@
       ],
       "category": "Frontend",
       "createdAt": "2026-02-02T21:21:12.876Z",
-      "updatedAt": "2026-02-02T22:01:19.156Z",
+      "updatedAt": "2026-02-09T19:50:09.576Z",
       "swaggerUrl": "https://bot-backend-v7zi.onrender.com/api",
       "githubLinks": [
         {
@@ -304,7 +305,8 @@
           "url": "https://github.com/qAbdullajon6/bot-backend",
           "isPrivate": false
         }
-      ]
+      ],
+      "telegramBotUrl": "https://t.me/DoriMalumotBot"
     }
   ],
   "experiences": [

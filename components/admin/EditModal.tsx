@@ -202,6 +202,7 @@ function getDefaultFormData(section: Section) {
         githubLinks: [] as Array<{ label: string; url: string; isPrivate?: boolean }>,
         liveUrl: "",
         swaggerUrl: "",
+        telegramBotUrl: "",
         featured: false,
         visible: true,
       };
@@ -632,6 +633,12 @@ function ProjectsForm({
         placeholder="https://api.example.com/docs yoki Swagger link"
         value={formData.swaggerUrl || ""}
         onChange={(value) => setFormData({ ...formData, swaggerUrl: value })}
+      />
+      <InputField
+        label="Telegram Bot URL"
+        placeholder="https://t.me/your_bot yoki t.me/your_bot"
+        value={formData.telegramBotUrl || ""}
+        onChange={(value) => setFormData({ ...formData, telegramBotUrl: value })}
       />
 
       <div className="flex items-center gap-2 p-3 bg-muted/30 rounded-lg">

@@ -66,6 +66,7 @@ export async function POST(request: NextRequest) {
       githubUrl: githubLinks[0]?.url || body.githubUrl || "",
       liveUrl: body.liveUrl || "",
       swaggerUrl: body.swaggerUrl || "",
+      telegramBotUrl: body.telegramBotUrl || "",
       featured: body.featured ?? false,
       visible: body.visible ?? true,
       order: body.order ?? data.projects.length + 1,
@@ -133,6 +134,7 @@ export async function PUT(request: NextRequest) {
       category: categories[0] || "",
       githubLinks,
       githubUrl: githubLinks[0]?.url || "",
+      visible: body.visible !== undefined ? body.visible : prev.visible,
       updatedAt: new Date().toISOString(),
     };
 
@@ -144,8 +146,12 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error updating project:", error);
+    const message =
+      error instanceof Error && error.message.includes("write")
+        ? "Ma'lumotni saqlab bo'lmadi. Serverda fayl yozish imkoni bo'lmasa, ma'lumotlar bazasi ishlatishingiz kerak."
+        : "Failed to update project";
     return NextResponse.json(
-      { success: false, message: "Failed to update project" },
+      { success: false, message },
       { status: 500 },
     );
   }
