@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     return NextResponse.json({ success: true, data: data.skills });
   } catch (error) {
     return NextResponse.json(
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const newSkill: Skill = {
       id: generateId(),
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     };
 
     data.skills.push(newSkill);
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, data: newSkill });
   } catch (error) {
@@ -79,7 +79,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const skillIndex = data.skills.findIndex((s) => s.id === body.id);
     if (skillIndex === -1) {
@@ -95,7 +95,7 @@ export async function PUT(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, data: data.skills[skillIndex] });
   } catch (error) {
@@ -127,7 +127,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     const filteredSkills = data.skills.filter((s) => s.id !== id);
 
     if (filteredSkills.length === data.skills.length) {
@@ -138,7 +138,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     data.skills = filteredSkills;
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, message: "Skill deleted" });
   } catch (error) {

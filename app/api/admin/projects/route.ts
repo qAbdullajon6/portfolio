@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     return NextResponse.json({ success: true, data: data.projects });
   } catch (error) {
     return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const images = Array.isArray(body.images)
       ? body.images
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     };
 
     data.projects.push(newProject);
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, data: newProject });
   } catch (error) {
@@ -99,7 +99,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const projectIndex = data.projects.findIndex((p) => p.id === body.id);
     if (projectIndex === -1) {
@@ -138,7 +138,7 @@ export async function PUT(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({
       success: true,
@@ -176,7 +176,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     const filteredProjects = data.projects.filter((p) => p.id !== id);
 
     if (filteredProjects.length === data.projects.length) {
@@ -187,7 +187,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     data.projects = filteredProjects;
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, message: "Project deleted" });
   } catch (error) {

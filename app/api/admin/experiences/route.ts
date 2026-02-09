@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     return NextResponse.json({ success: true, data: data.experiences });
   } catch (error) {
     return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const newExperience: Experience = {
       id: generateId(),
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     };
 
     data.experiences.push(newExperience);
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, data: newExperience });
   } catch (error) {
@@ -76,7 +76,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const index = data.experiences.findIndex((e) => e.id === body.id);
     if (index === -1) {
@@ -92,7 +92,7 @@ export async function PUT(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    writePortfolioData(data);
+    await writePortfolioData(data);
     return NextResponse.json({ success: true, data: data.experiences[index] });
   } catch (error) {
     return NextResponse.json(
@@ -120,9 +120,9 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     data.experiences = data.experiences.filter((e) => e.id !== id);
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, message: "Experience deleted" });
   } catch (error) {

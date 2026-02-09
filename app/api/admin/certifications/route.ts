@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     return NextResponse.json({ success: true, data: data.certifications });
   } catch (error) {
     return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const newCertification: Certification = {
       id: generateId(),
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     };
 
     data.certifications.push(newCertification);
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({ success: true, data: newCertification });
   } catch (error) {
@@ -73,7 +73,7 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
 
     const index = data.certifications.findIndex((c) => c.id === body.id);
     if (index === -1) {
@@ -89,7 +89,7 @@ export async function PUT(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    writePortfolioData(data);
+    await writePortfolioData(data);
     return NextResponse.json({
       success: true,
       data: data.certifications[index],
@@ -120,9 +120,9 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const data = readPortfolioData();
+    const data = await readPortfolioData();
     data.certifications = data.certifications.filter((c) => c.id !== id);
-    writePortfolioData(data);
+    await writePortfolioData(data);
 
     return NextResponse.json({
       success: true,
